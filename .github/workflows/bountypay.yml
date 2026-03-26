@@ -17,16 +17,16 @@ jobs:
             // Get the PR body
             const prBody = context.payload.pull_request.body || '';
             
-            // Extract bounty amount
-            const bountyMatch = prBody.match(/Bounty:\s*\$(\d+)\s*(USD1|USDC)/i);
+            // Extract bounty amount (supports "Bounty: $80 USD1" or "| Bounty | $80 USD1 |" table format)
+            const bountyMatch = prBody.match(/Bounty\s*\|?\s*\$(\d+)\s*(USD1|USDC)/i);
             if (!bountyMatch) {
               console.log('No bounty info found in PR body. Skipping.');
               core.setOutput('found', 'false');
               return;
             }
             
-            // Extract wallet address
-            const walletMatch = prBody.match(/Wallet:\s*`?(0x[a-fA-F0-9]{40})`?/);
+            // Extract wallet address (supports inline or table format)
+            const walletMatch = prBody.match(/Wallet\s*\|?\s*`?(0x[a-fA-F0-9]{40})`?/);
             if (!walletMatch) {
               console.log('No wallet address found in PR body. Skipping.');
               core.setOutput('found', 'false');
@@ -78,20 +78,23 @@ jobs:
             const token = '${{ steps.bounty.outputs.token }}';
             const wallet = '${{ steps.bounty.outputs.wallet }}';
             
-            const comment = `## 💰 BountyPay - Payment Confirmation (Simulation)
-
-            **Status:** ✅ Payment Triggered
-
-            | Field | Value |
-            |-------|-------|
-            | Amount | $${amount} ${token} |
-            | Recipient | \`${wallet}\` |
-            | Trigger | PR merged by @${context.payload.pull_request.merged_by.login} |
-            | Chain | BSC (Simulated) |
-            | Tx Hash | \`0x${Array.from({length: 64}, () => Math.floor(Math.random() * 16).toString(16)).join('')}\` (Simulated) |
-
-            > 🏅 Paid via BountyPay
-            > ⚠️ This is a simulation. In production, \`agentpay transfer\` would execute a real USD1 transfer on BSC.`;
+            const txHash = '0x' + Array.from({length: 64}, () => Math.floor(Math.random() * 16).toString(16)).join('');
+            const comment = [
+              '## 💰 BountyPay - Payment Confirmation (Simulation)',
+              '',
+              '**Status:** ✅ Payment Triggered',
+              '',
+              '| Field | Value |',
+              '|-------|-------|',
+              `| Amount | $${amount} ${token} |`,
+              `| Recipient | \`${wallet}\` |`,
+              `| Trigger | PR merged by @${context.payload.pull_request.merged_by.login} |`,
+              '| Chain | BSC (Simulated) |',
+              `| Tx Hash | \`${txHash}\` (Simulated) |`,
+              '',
+              '> 🏅 Paid via BountyPay',
+              '> ⚠️ This is a simulation. In production, `agentpay transfer` would execute a real USD1 transfer on BSC.'
+            ].join('\n');
             
             await github.rest.issues.createComment({
               owner: context.repo.owner,
