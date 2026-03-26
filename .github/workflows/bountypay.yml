@@ -1,0 +1,101 @@
+name: BountyPay - Auto Payment on Merge
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  bountypay:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract bounty info
+        id: bounty
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Get the PR body
+            const prBody = context.payload.pull_request.body || '';
+            
+            // Extract bounty amount
+            const bountyMatch = prBody.match(/Bounty:\s*\$(\d+)\s*(USD1|USDC)/i);
+            if (!bountyMatch) {
+              console.log('No bounty info found in PR body. Skipping.');
+              core.setOutput('found', 'false');
+              return;
+            }
+            
+            // Extract wallet address
+            const walletMatch = prBody.match(/Wallet:\s*`?(0x[a-fA-F0-9]{40})`?/);
+            if (!walletMatch) {
+              console.log('No wallet address found in PR body. Skipping.');
+              core.setOutput('found', 'false');
+              return;
+            }
+            
+            const amount = bountyMatch[1];
+            const token = bountyMatch[2];
+            const wallet = walletMatch[1];
+            
+            core.setOutput('found', 'true');
+            core.setOutput('amount', amount);
+            core.setOutput('token', token);
+            core.setOutput('wallet', wallet);
+            
+            console.log(`💰 Bounty detected: $${amount} ${token}`);
+            console.log(`📬 Recipient wallet: ${wallet}`);
+
+      - name: Simulate AgentPay transfer
+        if: steps.bounty.outputs.found == 'true'
+        run: |
+          echo "============================================"
+          echo "💰 BountyPay - Payment Simulation"
+          echo "============================================"
+          echo ""
+          echo "PR #${{ github.event.pull_request.number }} has been merged!"
+          echo ""
+          echo "📋 Payment Details:"
+          echo "   Amount:  \$${{ steps.bounty.outputs.amount }} ${{ steps.bounty.outputs.token }}"
+          echo "   To:      ${{ steps.bounty.outputs.wallet }}"
+          echo "   Trigger: PR merge by ${{ github.event.pull_request.merged_by.login }}"
+          echo ""
+          echo "🔧 Command that would execute:"
+          echo "   agentpay transfer \\"
+          echo "     --to ${{ steps.bounty.outputs.wallet }} \\"
+          echo "     --amount ${{ steps.bounty.outputs.amount }} \\"
+          echo "     --token ${{ steps.bounty.outputs.token }}"
+          echo ""
+          echo "✅ [SIMULATION] Payment would be sent on BSC chain"
+          echo "✅ [SIMULATION] Transaction hash would be posted as PR comment"
+          echo "============================================"
+
+      - name: Post payment confirmation comment
+        if: steps.bounty.outputs.found == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const amount = '${{ steps.bounty.outputs.amount }}';
+            const token = '${{ steps.bounty.outputs.token }}';
+            const wallet = '${{ steps.bounty.outputs.wallet }}';
+            
+            const comment = `## 💰 BountyPay - Payment Confirmation (Simulation)
+
+            **Status:** ✅ Payment Triggered
+
+            | Field | Value |
+            |-------|-------|
+            | Amount | $${amount} ${token} |
+            | Recipient | \`${wallet}\` |
+            | Trigger | PR merged by @${context.payload.pull_request.merged_by.login} |
+            | Chain | BSC (Simulated) |
+            | Tx Hash | \`0x${Array.from({length: 64}, () => Math.floor(Math.random() * 16).toString(16)).join('')}\` (Simulated) |
+
+            > 🏅 Paid via BountyPay
+            > ⚠️ This is a simulation. In production, \`agentpay transfer\` would execute a real USD1 transfer on BSC.`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: comment
+            });
