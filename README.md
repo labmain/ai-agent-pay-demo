@@ -1,10 +1,10 @@
-# bountypay-demo
+# ai-agent-pay-demo
 
-A simple CSV parser project used to simulate the **BountyPay** bounty workflow.
+A simple CSV parser project used to simulate the **ai-agent-pay-demo** bounty workflow.
 
 ## What is this?
 
-This repo demonstrates the BountyPay flow:
+This repo demonstrates the ai-agent-pay-demo flow:
 
 1. Maintainer creates an issue with a `bounty:$XXX` label
 2. A contributor (human or AI agent) claims the bounty
