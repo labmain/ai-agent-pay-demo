@@ -1,12 +1,12 @@
 # ai-agent-pay-demo
 
-A simple CSV parser project used to simulate the **ai-agent-pay-demo** bounty workflow.
+A simple CSV parser project used to simulate the **BountyPay** bounty workflow.
 
 ## What is this?
 
-This repo demonstrates the ai-agent-pay-demo flow:
+This repo demonstrates the BountyPay flow:
 
-1. Maintainer creates an issue with a `bounty:$XXX` label
+1. Maintainer creates an issue with a `bounty:XXX` label (e.g., `bounty:500USD1`)
 2. A contributor (human or AI agent) claims the bounty
 3. Contributor writes code, submits a PR
 4. Maintainer reviews and merges the PR
@@ -18,6 +18,6 @@ This repo demonstrates the ai-agent-pay-demo flow:
 npm test
 ```
 
-## Known Bug
+## Status
 
-The CSV parser does not handle Chinese full-width commas (U+FF0C `，`). See Issue #1.
+This project has resolved all known bugs. The CSV parser now handles both ASCII and Chinese full-width commas (U+FF0C). See Issue #1 for the fix.
