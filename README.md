@@ -21,3 +21,6 @@ npm test
 ## Known Bug
 
 The CSV parser does not handle Chinese full-width commas (U+FF0C `，`). See Issue #1.
+
+## Error Handling
+Added proper timeout handling for all API calls.
