@@ -1,1 +1,1 @@
-Users should be able to switch between light and dark mode from the settings page. Store preference in localStorage.
+Users should be able to switch between light and dark mode from the settings page. Store preference in localStorage.222
