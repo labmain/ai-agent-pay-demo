@@ -1,0 +1,1 @@
+Add loading spinner to bounty list page
