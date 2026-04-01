@@ -1,5 +1,5 @@
 {
-  "name": "bountypay-demo",
+  "name": "ai-agent-pay-demo",
   "version": "1.0.0",
   "description": "A simple CSV parser - BountyPay workflow demo",
   "main": "src/parser.js",
