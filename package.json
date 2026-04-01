@@ -1,10 +1,1 @@
-{
-  "name": "bountypay-demo",
-  "version": "1.0.0",
-  "description": "A simple CSV parser - BountyPay workflow demo",
-  "main": "src/parser.js",
-  "scripts": {
-    "test": "node test/parser.test.js"
-  },
-  "license": "MIT"
-}
+{"name":"ai-agent-pay-demo","version":"1.0.0","description":"A simple CSV parser - BountyPay workflow demo","main":"src/parser.js","scripts":{"test":"node test/parser.test.js","e2e":"node test/e2e.parser.test.js"},"license":"MIT"}
