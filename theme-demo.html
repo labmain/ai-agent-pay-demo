@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ai-agent-pay-demo</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #1a1a1a;
+      --border: #e0e0e0;
+      --accent: #3b82f6;
+      --muted: #666666;
+    }
+    [data-theme="dark"] {
+      --bg: #1a1a1a;
+      --text: #f0f0f0;
+      --border: #333333;
+      --accent: #60a5fa;
+      --muted: #999999;
+    }
+    body {
+      font-family: system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 2rem;
+      transition: background 0.2s, color 0.2s;
+    }
+    button#theme-toggle {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    button#theme-toggle:hover { opacity: 0.85; }
+    table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+    th, td { border: 1px solid var(--border); padding: 0.5rem; text-align: left; }
+    th { background: var(--border); }
+    #loading {
+      display: none;
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin: 0.5rem 0;
+    }
+    #loading.active { display: block; }
+    .spinner {
+      display: inline-block;
+      width: 16px; height: 16px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      vertical-align: middle;
+      margin-right: 0.4rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <h1>ai-agent-pay-demo</h1>
+  <button id="theme-toggle" onclick="toggleTheme()">Switch to Dark Mode</button>
+
+  <p id="loading"><span class="spinner"></span>Loading bounty list...</p>
+
+  <table>
+    <thead><tr><th>Issue</th><th>Title</th><th>Reward</th></tr></thead>
+    <tbody id="bounty-list">
+      <tr><td>#11</td><td>Dark/Light theme toggle</td><td>$50</td></tr>
+      <tr><td>#18</td><td>Loading spinner</td><td>$50</td></tr>
+      <tr><td>#19</td><td>Dark mode toggle in settings</td><td>$50</td></tr>
+    </tbody>
+  </table>
+
+  <script>
+    // Dark mode toggle with localStorage persistence
+    function toggleTheme() {
+      const html = document.documentElement;
+      const btn = document.getElementById('theme-toggle');
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        html.removeAttribute('data-theme');
+        btn.textContent = 'Switch to Dark Mode';
+        localStorage.removeItem('theme');
+      } else {
+        html.setAttribute('data-theme', 'dark');
+        btn.textContent = 'Switch to Light Mode';
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    // Restore theme from localStorage on load
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.getElementById('theme-toggle').textContent = 'Switch to Light Mode';
+    }
+
+    // Loading spinner demo: show spinner for 1.5s on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      const loading = document.getElementById('loading');
+      loading.classList.add('active');
+      setTimeout(() => { loading.classList.remove('active'); }, 1500);
+    });
+  </script>
+</body>
+</html>
