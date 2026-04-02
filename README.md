@@ -6,7 +6,7 @@ A simple CSV parser project used to simulate the **ai-agent-pay-demo** bounty wo
 
 This repo demonstrates the ai-agent-pay-demo flow:
 
-1. Maintainer creates an issue with a `bounty:$XXX` label
+1. Maintainer creates an issue with a `bounty:XXX` label (e.g., `bounty:500USD1`)
 2. A contributor (human or AI agent) claims the bounty
 3. Contributor writes code, submits a PR
 4. Maintainer reviews and merges the PR
