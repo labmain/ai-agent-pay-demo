@@ -4,7 +4,7 @@
   "description": "A simple CSV parser - BountyPay workflow demo",
   "main": "src/parser.js",
   "scripts": {
-    "test": "node test/parser.test.js"
+    "test": "node test/parser.test.js && node src/api-error-handler.test.js"
   },
   "license": "MIT"
 }
