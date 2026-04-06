@@ -1,10 +1,1 @@
-{
-  "name": "bountypay-demo",
-  "version": "1.0.0",
-  "description": "A simple CSV parser - BountyPay workflow demo",
-  "main": "src/parser.js",
-  "scripts": {
-    "test": "node test/parser.test.js"
-  },
-  "license": "MIT"
-}
+ewogICJuYW1lIjogImFpLWFnZW50LXBheS1kZW1vIiwKICAidmVyc2lvbiI6ICIxLjAuMCIsCiAgImRlc2NyaXB0aW9uIjogIkEgc2ltcGxlIENTViBwYXJzZXIgLSBCb3VudHlQYXkgd29ya2Zsb3cgZGVtbyIsCiAgIm1haW4iOiAic3JjL3BhcnNlci5qcyIsCiAgInNjcmlwdHMiOiB7CiAgICAidGVzdCI6ICJub2RlIHRlc3QvcGFyc2VyLnRlc3QuanMiCiAgfSwKICAibGljZW5zZSI6ICJNSVQiCn0=
