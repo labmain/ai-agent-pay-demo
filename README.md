@@ -25,3 +25,7 @@ The CSV parser does not handle Chinese full-width commas (U+FF0C `，`). See Iss
 ## Error Handling
 Added proper timeout handling for all API calls.
 // Webhook integration implemented
+
+`src/api-response.js` provides a shared wrapper for API calls that treats null,
+undefined, and empty response bodies as recoverable failures and surfaces a
+friendly toast message instead of letting callers crash on the response shape.
