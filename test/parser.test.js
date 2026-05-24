@@ -1,4 +1,4 @@
-const { parseCSV } = require('../src/parser');
+const { parseAPIResponse, parseCSV } = require('../src/parser');
 
 let passed = 0;
 let failed = 0;
@@ -58,6 +58,26 @@ assert(
 let threwError = false;
 try { parseCSV(''); } catch (e) { threwError = true; }
 assert('throws on empty input', threwError, true);
+
+// Test 7: Empty API responses show a friendly error instead of throwing
+let errorToast = '';
+assert(
+  'handles empty API response body with a friendly error',
+  parseAPIResponse(undefined, message => { errorToast = message; }),
+  []
+);
+assert(
+  'reports friendly empty response error',
+  errorToast,
+  'No CSV data was returned. Please try again later.'
+);
+
+// Test 8: Non-empty API responses still parse as CSV
+assert(
+  'parses non-empty API response body',
+  parseAPIResponse('name,age\nAda,36'),
+  [['name', 'age'], ['Ada', '36']]
+);
 
 console.log(`\n📊 Results: ${passed} passed, ${failed} failed\n`);
 process.exit(failed > 0 ? 1 : 0);

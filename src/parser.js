@@ -16,4 +16,16 @@ function parseCSV(text) {
   return rows.map(row => row.split(COMMA_PATTERN).map(cell => cell.trim()));
 }
 
-module.exports = { parseCSV };
+function parseAPIResponse(responseBody, notifyError) {
+  if (typeof responseBody !== 'string' || responseBody.trim() === '') {
+    const message = 'No CSV data was returned. Please try again later.';
+    if (typeof notifyError === 'function') {
+      notifyError(message);
+    }
+    return [];
+  }
+
+  return parseCSV(responseBody);
+}
+
+module.exports = { parseCSV, parseAPIResponse };
