@@ -16,4 +16,34 @@ function parseCSV(text) {
   return rows.map(row => row.split(COMMA_PATTERN).map(cell => cell.trim()));
 }
 
-module.exports = { parseCSV };
+function createErrorToast(message) {
+  return {
+    type: 'error',
+    title: 'Unable to load bounties',
+    message,
+  };
+}
+
+function parseApiResponseBody(body) {
+  if (body === null || body === undefined || body === '') {
+    return {
+      data: null,
+      error: createErrorToast('The API returned an empty response. Please try again.'),
+    };
+  }
+
+  if (typeof body === 'object') {
+    return { data: body, error: null };
+  }
+
+  try {
+    return { data: JSON.parse(body), error: null };
+  } catch (error) {
+    return {
+      data: null,
+      error: createErrorToast('The API returned an invalid response. Please try again.'),
+    };
+  }
+}
+
+module.exports = { parseCSV, parseApiResponseBody, createErrorToast };
