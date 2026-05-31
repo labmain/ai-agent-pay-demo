@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Theme Toggle Demo</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0;
+      }
+
+      nav {
+        align-items: center;
+        border-bottom: 1px solid currentColor;
+        display: flex;
+        gap: 1rem;
+        justify-content: space-between;
+        padding: 1rem;
+      }
+
+      main {
+        padding: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <nav data-theme-navbar>
+      <strong>BountyPay Demo</strong>
+    </nav>
+    <main>
+      <p>The navbar button switches between light and dark mode and persists the preference in localStorage.</p>
+    </main>
+    <script src="./src/theme-toggle.js"></script>
+    <script>
+      window.ThemeToggle.installNavbarThemeToggle();
+    </script>
+  </body>
+</html>
