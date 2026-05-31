@@ -4,7 +4,8 @@
   "description": "A simple CSV parser - BountyPay workflow demo",
   "main": "src/parser.js",
   "scripts": {
-    "test": "node test/parser.test.js"
+    "test": "node test/parser.test.js && npm run test:e2e",
+    "test:e2e": "node test/e2e-parser.test.js"
   },
   "license": "MIT"
 }
