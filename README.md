@@ -18,10 +18,8 @@ This repo demonstrates the ai-agent-pay-demo flow:
 npm test
 ```
 
-## Known Bug
+## Features
 
-The CSV parser does not handle Chinese full-width commas (U+FF0C `，`). See Issue #1.
-
-## Error Handling
-Added proper timeout handling for all API calls.
-Webhook integration implemented.
+- Supports both ASCII comma (,) and Chinese full-width comma (，).
+- Automatic whitespace trimming for all cells.
+- Robust error handling for empty inputs.
