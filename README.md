@@ -1,27 +1,28 @@
-# ai-agent-pay-demo
+# AI Agent Pay Demo
 
-A simple CSV parser project used to simulate the **ai-agent-pay-demo** bounty workflow.
+A demonstration project for AI-agent payment workflows.
 
-## What is this?
+## Overview
 
-This repo demonstrates the ai-agent-pay-demo flow:
+This repository contains a parser and settings validator for agent-driven payment flows, along with supporting utilities and tests.
 
-1. Maintainer creates an issue with a `bounty:$XXX` label
-2. A contributor (human or AI agent) claims the bounty
-3. Contributor writes code, submits a PR
-4. Maintainer reviews and merges the PR
-5. GitHub Action automatically triggers payment (simulated)
+## Structure
 
-## How to run
+- `src/parser.js` – Payment instruction parser
+- `src/settings-validator.ts` – Settings validation logic
+- `src/settings-validator.test.ts` – Tests for the settings validator
+- `test/parser.test.js` – Tests for the parser
+
+## Getting Started
 
 ```bash
+# Install dependencies
+npm install
+
+# Run tests
 npm test
 ```
 
-## Known Bug
+## License
 
-The CSV parser does not handle Chinese full-width commas (U+FF0C `，`). See Issue #1.
-
-## Error Handling
-Added proper timeout handling for all API calls.
-// Webhook integration implemented
+MIT
